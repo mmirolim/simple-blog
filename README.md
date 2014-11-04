@@ -2,8 +2,8 @@
 
 ## About ##
 Blog written for learning Scala.
-Backend REST API build using Scalatra
-Front-end is build using React.js and Flux
+Backend REST API build using [Scalatra](http://www.scalatra.org/)
+Front-end is build using [React.js](http://facebook.github.io/react/) and [Flux](https://github.com/facebook/flux)
 ## Build & Run ##
 
 ```sh
