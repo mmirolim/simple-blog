@@ -1,8 +1,7 @@
-package Blog
+package blog
 
-import Blog.Routers.{Post, Comment, User}
+import blog.routes._
 import org.scalatra._
-import scalate.ScalateSupport
 
 class SimpleBlog
   extends SimpleBlogStack

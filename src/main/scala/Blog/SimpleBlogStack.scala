@@ -1,4 +1,4 @@
-package Blog
+package blog
 
 import org.scalatra._
 import scalate.ScalateSupport
