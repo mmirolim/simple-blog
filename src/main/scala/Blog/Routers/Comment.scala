@@ -8,16 +8,17 @@ import org.scalatra.scalate.ScalateSupport
  */
 trait Comment extends ScalatraServlet with ScalateSupport {
 
-  get("/comments/:id") {
-    "This is comment trait"
-  }
 
   post("/comments") {
     // create comment
   }
 
-  put("/comments/:id") {
-    "This is put method"
+  get("/comments/:id") {
+    "This is comment trait"
+  }
+
+  post("/comments/:id") {
+    "This is comment update"
   }
 
   delete("/comments/:id") {

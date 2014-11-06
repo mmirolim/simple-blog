@@ -8,15 +8,25 @@ import org.scalatra.scalate.ScalateSupport
  */
 trait Post extends ScalatraServlet with ScalateSupport {
 
+
+  get("/posts") {
+    "GET all posts"
+  }
+
   get("/posts/:id") {
     "This is post trait"
+  }
+
+  // router match from bottom to top goes
+  get("/posts/:id/comments") {
+    "GET post comments"
   }
 
   post("/posts") {
     // create comment
   }
 
-  put("/posts/:id") {
+  post("/posts/:id") {
     // update comment
   }
 

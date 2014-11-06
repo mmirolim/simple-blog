@@ -5,5 +5,6 @@ package Blog.Models
  */
 class User {
 
+
   def name = "User name"
 }
