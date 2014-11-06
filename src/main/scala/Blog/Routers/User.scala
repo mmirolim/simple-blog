@@ -10,33 +10,36 @@ import org.scalatra.scalate.ScalateSupport
 trait User extends ScalatraServlet with ScalateSupport {
 
 
-  get("/users") {
+  val ns = "/users"
+  val nsId = ns + "/:id"
+
+  get(ns) {
     "User trait"
   }
 
-  get("/users/:id") {
+  get(nsId) {
     params("id")
     val u = new M.User()
     u.name
   }
 
-  get("/users/:id/posts") {
+  get(nsId + "/posts") {
     "GET user posts"
   }
 
-  get("/users/:id/comments") {
+  get(nsId + "/comments") {
     "GET user comments"
   }
 
-  post("/users") {
+  post(ns) {
     // create new user
   }
 
-  post("/users/:id") {
+  post(nsId) {
     // update user
   }
 
-  delete("/users/:id") {
+  delete(nsId) {
     //delete user
   }
 

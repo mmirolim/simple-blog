@@ -8,20 +8,22 @@ import org.scalatra.scalate.ScalateSupport
  */
 trait Comment extends ScalatraServlet with ScalateSupport {
 
+  val ns = "/comments" // route namespace
+  val nsId = ns + "/:id"
 
-  post("/comments") {
+  post(ns) {
     // create comment
   }
 
-  get("/comments/:id") {
+  get(nsId) {
     "This is comment trait"
   }
 
-  post("/comments/:id") {
+  post(nsId) {
     "This is comment update"
   }
 
-  delete("/comments/:id") {
+  delete(nsId) {
     "this is DELETE method"
   }
 

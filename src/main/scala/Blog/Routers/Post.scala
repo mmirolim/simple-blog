@@ -8,29 +8,31 @@ import org.scalatra.scalate.ScalateSupport
  */
 trait Post extends ScalatraServlet with ScalateSupport {
 
+  val ns = "/posts"
+  val nsId = ns + "/:id"
 
-  get("/posts") {
+  get(ns) {
     "GET all posts"
   }
 
-  get("/posts/:id") {
+  get(nsId) {
     "This is post trait"
   }
 
   // router match from bottom to top goes
-  get("/posts/:id/comments") {
+  get(nsId  + "/comments") {
     "GET post comments"
   }
 
-  post("/posts") {
+  post(ns) {
     // create comment
   }
 
-  post("/posts/:id") {
+  post(nsId) {
     // update comment
   }
 
-  delete("/posts/:id") {
+  delete(nsId) {
     // delete comment
   }
 
