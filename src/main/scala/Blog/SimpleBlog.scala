@@ -3,7 +3,11 @@ package Blog
 import org.scalatra._
 import scalate.ScalateSupport
 
-class SimpleBlog extends SimpleBlogStack {
+class SimpleBlog
+  extends SimpleBlogStack
+  with Post
+  with Comment
+  with User {
 
   get("/") {
     <html>
@@ -13,4 +17,5 @@ class SimpleBlog extends SimpleBlogStack {
       </body>
     </html>
   }
+
 }
