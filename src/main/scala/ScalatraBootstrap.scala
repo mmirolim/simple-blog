@@ -1,4 +1,4 @@
-import Blog._
+import blog._
 import org.scalatra._
 import javax.servlet.ServletContext
 
