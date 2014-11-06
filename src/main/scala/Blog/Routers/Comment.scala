@@ -1,4 +1,4 @@
-package Blog
+package Blog.Routers
 
 import org.scalatra.ScalatraServlet
 import org.scalatra.scalate.ScalateSupport
@@ -17,11 +17,11 @@ trait Comment extends ScalatraServlet with ScalateSupport {
   }
 
   put("/comments/:id") {
-    // update comment
+    "This is put method"
   }
 
   delete("/comments/:id") {
-    // delete comment
+    "this is DELETE method"
   }
 
 }

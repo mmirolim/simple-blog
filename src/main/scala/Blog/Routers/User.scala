@@ -1,5 +1,6 @@
-package Blog
+package Blog.Routers
 
+import Blog.{Models => M}
 import org.scalatra.ScalatraServlet
 import org.scalatra.scalate.ScalateSupport
 
@@ -10,6 +11,8 @@ trait User extends ScalatraServlet with ScalateSupport {
 
   get("/users/:id") {
     params("id")
+    val u = new M.User()
+    u.name
   }
 
   get("/users") {

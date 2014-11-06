@@ -1,4 +1,4 @@
-package Blog
+package Blog.Routers
 
 import org.scalatra.ScalatraServlet
 import org.scalatra.scalate.ScalateSupport
