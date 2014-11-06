@@ -8,7 +8,8 @@ class SimpleBlog
   with Post
   with Comment
   with User
-  with MethodOverride {
+  with MethodOverride
+  with GZipSupport  {
 
   get("/") {
     "Hello World!"

@@ -8,4 +8,5 @@ import org.scalatra.scalate.ScalateSupport
  */
 trait Base extends ScalatraServlet with ScalateSupport {
 
+  val baseProp = "base prop"
 }
