@@ -9,7 +9,7 @@ trait Comment extends Base  {
   private val _nsId = _ns + "/:id"
 
   post(_ns) {
-    // create comment
+    "POST " + _ns + baseProp
   }
 
   get(_nsId) {
