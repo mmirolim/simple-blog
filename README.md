@@ -1,5 +1,5 @@
 # Simple Blog #
-
+[![Build Status](https://travis-ci.org/mmirolim/simple-blog.svg?branch=develop)](https://travis-ci.org/mmirolim/simple-blog)
 ## About ##
 Blog written for learning Scala.
 Backend REST API build using [Scalatra](http://www.scalatra.org/)
