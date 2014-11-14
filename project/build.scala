@@ -30,7 +30,8 @@ object SimpleBlogBuild extends Build {
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0",
         "org.scalatra" %% "scalatra-json" % "2.3.0",
-        "org.json4s"   %% "json4s-jackson" % "3.2.9"
+        "org.json4s"   %% "json4s-jackson" % "3.2.9",
+        "org.mindrot" % "jbcrypt" % "0.3m"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(
