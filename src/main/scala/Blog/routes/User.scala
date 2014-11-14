@@ -1,7 +1,5 @@
 package blog.routes
 
-import models.Users
-
 /**
  * Created by Mirzakhmedov Mirolim on 06.11.2014.
  */
@@ -16,9 +14,7 @@ trait User extends Base {
   }
 
   get(_nsId) {
-    params("id")
-    val u = new Users()
-    u.name
+   "GET user"
   }
 
   get(_nsId + "/posts") {
