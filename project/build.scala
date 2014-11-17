@@ -35,7 +35,8 @@ object SimpleBlogBuild extends Build {
         "com.mchange" % "c3p0" % "0.9.5-pre10",
         "com.h2database" % "h2" % "1.4.182",
         "mysql" % "mysql-connector-java" % "5.1.34",
-        "com.typesafe.slick" %% "slick" % "2.1.0"
+        "com.typesafe.slick" %% "slick" % "2.1.0",
+        "com.typesafe" % "config" % "1.2.1"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(
