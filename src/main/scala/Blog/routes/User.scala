@@ -1,5 +1,8 @@
 package blog.routes
 
+import models._
+import scala.slick.driver.MySQLDriver.simple._
+
 /**
  * Created by Mirzakhmedov Mirolim on 06.11.2014.
  */
@@ -35,6 +38,13 @@ trait User extends Base {
 
   delete(_nsId) {
     //delete user
+  }
+
+  get(_ns + "/roles") {
+    db withSession {
+      implicit session: Session =>
+        Roles.getAllTitles.list
+    }
   }
 
 }
