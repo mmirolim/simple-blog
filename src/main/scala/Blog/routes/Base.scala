@@ -16,6 +16,8 @@ trait Base extends ScalatraServlet with ScalateSupport with JacksonJsonSupport {
   val baseProp = "base prop"
   protected implicit val jsonFormats: Formats = DefaultFormats
 
+  case class Msg(status: Int, content: String)
+
   before() {
     contentType = formats("json")
   }
