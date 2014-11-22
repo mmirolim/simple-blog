@@ -19,6 +19,8 @@ class Roles(tag: Tag) extends Table[(Int, String)](tag, "roles") {
 
 object Roles {
 
+  val dic = Map("Admin" -> 1, "Editor" -> 2, "User" -> 3)
+
   val roles = TableQuery[Roles]
 
   def getAllTitles = for(r <- roles) yield r.title

@@ -12,12 +12,12 @@ import scala.slick.lifted.Tag
  * Created by Mirzakhmedov Mirolim on 07.11.2014.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-case class User(id: Int,
+case class User(id: Option[Int],
                 login: String,
                 pass: String,
                 name: String,
                 email: String,
-                roleId: Int,
+                roleId: Int = Roles.dic("User"),
                 createdAt: Timestamp = new Timestamp(new Date().getTime),
                 updatedAt: Timestamp = new Timestamp(new Date().getTime))
 
