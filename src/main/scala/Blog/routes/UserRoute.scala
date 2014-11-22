@@ -21,8 +21,7 @@ trait UserRoute extends Base {
   }
 
   get(_nsId) {
-    val uid = session.getAttribute("uid")
-    uid
+
   }
 
   get(_nsId + "/posts") {
@@ -76,7 +75,6 @@ trait UserRoute extends Base {
 
   delete(_nsId) {
     //delete user
-    session.setAttribute("uid", 777)
   }
 
   get(_ns + "/roles") {
