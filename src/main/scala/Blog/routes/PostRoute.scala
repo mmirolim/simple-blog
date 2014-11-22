@@ -5,7 +5,7 @@ import org.scalatra.BadRequest
 /**
  * Created by Mirzakhmedov Mirolim on 06.11.2014.
  */
-trait Post extends Base {
+trait PostRoute extends Base {
 
   private val _ns = "/posts"
   private val _nsId = _ns + "/:id"
@@ -26,8 +26,8 @@ trait Post extends Base {
   post(_ns) {
 
     try {
-      val post = parsedBody.extract[models.Posts]
-      post
+//      val post = parsedBody.extract[models.Posts]
+ //     post
     } catch {
       case e: Exception => BadRequest("Sorry, json was malformed or not serialized")
     }

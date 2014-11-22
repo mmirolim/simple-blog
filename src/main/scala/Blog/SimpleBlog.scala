@@ -7,9 +7,9 @@ import scala.slick.driver.MySQLDriver.simple._
 
 class SimpleBlog(val db: Database, val logger: Logger)
   extends SimpleBlogStack
-  with Post
-  with Comment
-  with User
+  with PostRoute
+  with CommentRoute
+  with UserRoute
   with MethodOverride
   with GZipSupport  {
 
