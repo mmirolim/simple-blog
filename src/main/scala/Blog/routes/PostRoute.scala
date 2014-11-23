@@ -23,24 +23,5 @@ trait PostRoute extends Base {
     "GET post comments"
   }
 
-  post(_ns) {
-
-    try {
-//      val post = parsedBody.extract[models.Posts]
- //     post
-    } catch {
-      case e: Exception => BadRequest("Sorry, json was malformed or not serialized")
-    }
-
-  }
-
-  post(_nsId) {
-    // update comment
-  }
-
-  delete(_nsId) {
-    // delete comment
-  }
-
 }
 

@@ -13,7 +13,7 @@ class ScalatraBootstrap extends LifeCycle with DBInit {
 
   override def init(c: ServletContext) {
     c.mount(new SimpleBlog(db, logger), "/*")
-    c.mount(new Backend, "/backend/*")
+    c.mount(new Backend(db, logger), "/backend/*")
   }
 
   override def destroy(c: ServletContext): Unit = {

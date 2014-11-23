@@ -1,0 +1,101 @@
+package backend.routes
+
+import java.sql.Timestamp
+import java.util.Date
+
+import models.Tables._
+import org.mindrot.jbcrypt.BCrypt
+import org.scalatra.BadRequest
+import scala.slick.driver.MySQLDriver.simple._
+
+/**
+ * Created by Mirzakhmedov Mirolim on 06.11.2014.
+ */
+trait UserRoute extends Base {
+
+  private val _ns = "/users"
+  private val _nsId = _ns + "/:id"
+  case class LoginData(login: String, pass: String)
+  get("/login") {
+    LoginData("mike", "mikes'pass")
+  }
+  case class P(age: Int)
+  post("/test") {
+    try {
+      val p = parsedBody.extract[P]
+    } catch {
+      case e: Exception => BadRequest(Msg(500, e.toString))
+    }
+  }
+  post("/login") {
+
+    try {
+      val data: LoginData = parsedBody.extract[LoginData]
+      // hash password
+
+      db withSession {
+        implicit session: Session =>
+          val u = (for(u <- users if u.login === data.login) yield (u.id, u.pass)).run
+          if (BCrypt.checkpw(data.pass, u(0)._2))
+            Msg(200, "password is corret")
+          else Msg(401, "wrong password")
+      }
+
+      Msg(200, "authorized")
+
+    } catch {
+      case e: Exception => BadRequest(Msg(400, e.toString))
+    }
+  }
+
+  post(_ns) {
+
+    try {
+      val u = parsedBody.extract[User]
+      // hash password
+      val passHashed = BCrypt.hashpw(u.pass, BCrypt.gensalt)
+      val now = new Timestamp(new Date().getTime)
+
+      db withSession {
+        implicit session: Session =>
+          users.map(n => (n.login, n.pass, n.name, n.email, n.roleId, n.createdAt)) += (u.login, passHashed, u.name, u.email, rolesDic("User"), now)
+      }
+
+      Msg(200, "new user created")
+
+    } catch {
+      case e: Exception => BadRequest(Msg(400,e.toString))
+    }
+
+  }
+
+  post(_nsId) {
+/*    val users = TableQuery[Users]
+    try {
+      val u = parsedBody.extract[models.User]
+      // hash password
+      val passHashed = BCrypt.hashpw(u.pass, BCrypt.gensalt)
+
+      db withSession {
+        implicit session: Session =>
+          users.map(n => (n.login, n.pass, n.name, n.email, n.roleId, n.createdAt)) += (u.login, passHashed, u.name, u.email, Roles.dic("User"), now)
+      }
+
+      Msg(200, "new user created")
+
+    } catch {
+      case e: Exception => BadRequest(Msg(400,e.toString))
+    }*/
+
+  }
+
+  delete(_nsId) {
+    //delete user
+  }
+
+  get(_ns + "/roles") {
+
+  }
+
+}
+
