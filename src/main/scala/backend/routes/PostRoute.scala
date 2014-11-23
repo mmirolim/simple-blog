@@ -12,13 +12,6 @@ trait PostRoute extends Base {
 
   post(_ns) {
 
-    try {
-//      val post = parsedBody.extract[models.Posts]
- //     post
-    } catch {
-      case e: Exception => BadRequest("Sorry, json was malformed or not serialized")
-    }
-
   }
 
   post(_nsId) {
