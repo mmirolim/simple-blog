@@ -1,20 +1,25 @@
 package blog.routes
 
+import java.sql.Timestamp
+import java.util.Date
+
+import models.Tables._
+import org.scalatra.BadRequest
+import scala.slick.driver.MySQLDriver.simple._
 /**
  * Created by Mirzakhmedov Mirolim on 06.11.2014.
  */
-trait User extends Base {
+trait UserRoute extends Base {
 
 
   private val _ns = "/users"
   private val _nsId = _ns + "/:id"
 
   get(_ns) {
-    "User trait"
   }
 
   get(_nsId) {
-   "GET user"
+
   }
 
   get(_nsId + "/posts") {
@@ -23,18 +28,6 @@ trait User extends Base {
 
   get(_nsId + "/comments") {
     "GET user comments"
-  }
-
-  post(_ns) {
-    // create new user
-  }
-
-  post(_nsId) {
-    // update user
-  }
-
-  delete(_nsId) {
-    //delete user
   }
 
 }

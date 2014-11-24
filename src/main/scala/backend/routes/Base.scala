@@ -1,4 +1,4 @@
-package blog.routes
+package backend.routes
 
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.ScalatraServlet
@@ -18,6 +18,7 @@ trait Base extends ScalatraServlet with ScalateSupport with JacksonJsonSupport {
 
   before() {
     contentType = formats("json")
+    if (session.getAttribute("uid") == null) halt(401)
   }
 
 }
