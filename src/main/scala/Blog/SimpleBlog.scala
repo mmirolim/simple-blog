@@ -7,6 +7,7 @@ import scala.slick.driver.MySQLDriver.simple._
 
 class SimpleBlog(val db: Database, val logger: Logger)
   extends SimpleBlogStack
+  with AuthRoute
   with PostRoute
   with CommentRoute
   with UserRoute

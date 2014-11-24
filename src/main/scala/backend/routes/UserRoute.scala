@@ -15,29 +15,6 @@ trait UserRoute extends Base {
   private val _ns = "/users"
   private val _nsId = _ns + "/:id"
 
-  post("/login") {
-
-    try {
-      val data: LoginData = parsedBody.extract[LoginData]
-      // hash password
-
-      db withSession {
-        implicit session: Session =>
-          users.filter(_.login === data.login).list
-      } match {
-        case Nil => Unauthorized(ResMsg(401, "login/password is wrong"))
-        case u +: _ =>
-          if (BCrypt.checkpw(data.pass, u.pass)) {
-            //save user id in session
-            session.setAttribute("uid", u.id)
-            Ok(ResMsg(200, "you are logged in"))
-          } else Unauthorized(ResMsg(401, "login/password is wrong"))
-
-      }
-    } catch {
-      case e: Exception => BadRequest(ResMsg(400, e.toString))
-    }
-  }
 
   post(_ns) {
 
@@ -83,8 +60,8 @@ trait UserRoute extends Base {
     //delete user
   }
 
-  get(_ns + "/roles") {
-
+  get("/roles") {
+    "Get All Roles"
   }
 
 }

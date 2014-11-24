@@ -18,6 +18,7 @@ trait Base extends ScalatraServlet with ScalateSupport with JacksonJsonSupport {
 
   before() {
     contentType = formats("json")
+    if (session.getAttribute("uid") == null) halt(401)
   }
 
 }
