@@ -1,8 +1,6 @@
 package backend.routes
 
-import java.sql.Timestamp
-import java.util.Date
-
+import java.time.LocalDateTime._
 import models.Tables._
 import org.mindrot.jbcrypt.BCrypt
 import org.scalatra.{Ok, Unauthorized, BadRequest}
@@ -47,7 +45,6 @@ trait UserRoute extends Base {
       val u = parsedBody.extract[User]
       // hash password
       val passHashed = BCrypt.hashpw(u.pass, BCrypt.gensalt)
-      val now = new Timestamp(new Date().getTime)
 
       db withSession {
         implicit session: Session =>
@@ -68,7 +65,7 @@ trait UserRoute extends Base {
       val u = parsedBody.extract[User]
       // hash password
       val passHashed = BCrypt.hashpw(u.pass, BCrypt.gensalt)
-      val now = new Timestamp(new Date().getTime)
+
       db withSession {
         implicit session: Session =>
           users.map(n => (n.login, n.pass, n.name, n.email, n.roleId, n.createdAt)) += (u.login, passHashed, u.name, u.email, rolesDic("User"), now)

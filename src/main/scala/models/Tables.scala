@@ -1,10 +1,9 @@
 package models
 
-import java.sql.Timestamp
-import java.util.Date
-
+import java.time.LocalDateTime._
+import java.time.{LocalDate, LocalDateTime, ZoneOffset}
+import java.sql.{Date, Timestamp}
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-
 import scala.slick.driver.MySQLDriver.simple._
 import scala.slick.lifted.Tag
 
@@ -22,8 +21,8 @@ object Tables {
                   name: String,
                   email: String,
                   roleId: Int = rolesDic("User"),
-                  createdAt: Timestamp = new Timestamp(new Date().getTime),
-                  updatedAt: Timestamp = new Timestamp(new Date().getTime))
+                  createdAt: LocalDateTime = now,
+                  updatedAt: LocalDateTime = now)
 
   class Users(tag: Tag) extends Table[User](tag, "users") {
 
@@ -39,9 +38,9 @@ object Tables {
 
     def roleId = column[Int]("role")
 
-    def createdAt = column[Timestamp]("created_at")
+    def createdAt = column[LocalDateTime]("created_at")
 
-    def updatedAt = column[Timestamp]("updated_at")
+    def updatedAt = column[LocalDateTime]("updated_at")
 
     // projection to *
     def * = (id, login, pass, name, email, roleId, createdAt, updatedAt) <> (User.tupled, User.unapply _)
@@ -67,4 +66,20 @@ object Tables {
 
   val roles = TableQuery[Roles]
 
+
+ implicit val JavaLocalDateTimeMapper = MappedColumnType.base[LocalDateTime, Timestamp](
+  {d => Timestamp.from(d.toInstant(ZoneOffset.ofHours(0)))},
+  {d => d.toLocalDateTime}
+  )
+
+  /**
+   * map between java.time.LocalDate and sql.Date
+   */
+  implicit val JavaLocalDateMapper = MappedColumnType.base[LocalDate, Date](
+  {d => Date.valueOf(d)},
+  {d => d.toLocalDate}
+  )
+
 }
+
+
