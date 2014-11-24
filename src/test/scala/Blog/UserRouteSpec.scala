@@ -1,12 +1,13 @@
 package blog
 
+import backend.DB
 import org.scalatra.test.specs2._
 /**
  * Created by Mirzakhmedov Mirolim on 15.11.2014.
  */
-class UserSpec extends MutableScalatraSpec {
+class UserRouteSpec extends MutableScalatraSpec with DB {
 
-  addServlet(classOf[SimpleBlog], "/*")
+  addServlet(new SimpleBlog(db, logger), "/*")
 
   "GET /users User" should {
     "return status 200" in {
@@ -35,30 +36,6 @@ class UserSpec extends MutableScalatraSpec {
   "GET /users/1/comments User" should {
     "return status 200" in {
       get("/users/1/comments") {
-        status must_== 200
-      }
-    }
-  }
-
-  "POST /users User" should {
-    "return status 200" in {
-      post("/users") {
-        status must_== 200
-      }
-    }
-  }
-
-  "POST /users/1 User" should {
-    "return status 200" in {
-      post("/users/1") {
-        status must_== 200
-      }
-    }
-  }
-
-  "DELETE /users/1 User" should {
-    "return status 200" in {
-      delete("/users/1") {
         status must_== 200
       }
     }
