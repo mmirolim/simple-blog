@@ -5,7 +5,7 @@ import java.util.Date
 
 import models.Tables._
 import org.mindrot.jbcrypt.BCrypt
-import org.scalatra.BadRequest
+import org.scalatra.{Ok, Unauthorized, BadRequest}
 import utils.Helpers._
 import scala.slick.driver.MySQLDriver.simple._
 
@@ -25,14 +25,17 @@ trait UserRoute extends Base {
 
       db withSession {
         implicit session: Session =>
-          val u = (for(u <- users if u.login === data.login) yield (u.id, u.pass)).run
-          if (BCrypt.checkpw(data.pass, u(0)._2))
-            ResMsg(200, "password is corret")
-          else ResMsg(401, "wrong password")
+          users.filter(_.login === data.login).list
+      } match {
+        case Nil => Unauthorized(ResMsg(401, "login/password is wrong"))
+        case u +: _ =>
+          if (BCrypt.checkpw(data.pass, u.pass)) {
+            //save user id in session
+            session.setAttribute("uid", u.id)
+            Ok(ResMsg(200, "you are logged in"))
+          } else Unauthorized(ResMsg(401, "login/password is wrong"))
+
       }
-
-      ResMsg(200, "authorized")
-
     } catch {
       case e: Exception => BadRequest(ResMsg(400, e.toString))
     }

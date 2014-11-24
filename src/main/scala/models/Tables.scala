@@ -16,7 +16,7 @@ object Tables {
   val rolesDic = Map("Admin" -> 1, "Editor" -> 2, "User" -> 3)
 
   @JsonIgnoreProperties(ignoreUnknown = true)
-  case class User(id: Option[Int],
+  case class User(id: Int = 0,
                   login: String,
                   pass: String,
                   name: String,
@@ -25,7 +25,7 @@ object Tables {
                   createdAt: Timestamp = new Timestamp(new Date().getTime),
                   updatedAt: Timestamp = new Timestamp(new Date().getTime))
 
-  class Users(tag: Tag) extends Table[(Int, String, String, String, String, Int, Timestamp, Timestamp)](tag, "users") {
+  class Users(tag: Tag) extends Table[User](tag, "users") {
 
     def id = column[Int]("id", O.PrimaryKey)
 
@@ -44,7 +44,7 @@ object Tables {
     def updatedAt = column[Timestamp]("updated_at")
 
     // projection to *
-    def * = (id, login, pass, name, email, roleId, createdAt, updatedAt)
+    def * = (id, login, pass, name, email, roleId, createdAt, updatedAt) <> (User.tupled, User.unapply _)
 
     def role = foreignKey("roles", roleId, roles)(_.id)
   }
