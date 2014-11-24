@@ -1,7 +1,7 @@
 package backend.routes
 
 import org.json4s.{DefaultFormats, Formats}
-import org.scalatra.ScalatraServlet
+import org.scalatra.{BadRequest, ScalatraServlet}
 import org.scalatra.json.JacksonJsonSupport
 import org.scalatra.scalate.ScalateSupport
 import org.slf4j.Logger
@@ -17,8 +17,8 @@ trait Base extends ScalatraServlet with ScalateSupport with JacksonJsonSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   before() {
-    contentType = formats("json")
     if (session.getAttribute("uid") == null) halt(401)
+    contentType = formats("json")
   }
 
 }
