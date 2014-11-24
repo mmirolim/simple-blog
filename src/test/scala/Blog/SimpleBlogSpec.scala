@@ -6,7 +6,7 @@ class SimpleBlogSpec extends ScalatraSpec { def is =
   "GET / on SimpleBlog"                     ^
     "should return status 200"                  ! root200^
                                                 end
-
+  
   addServlet(classOf[SimpleBlog], "/*")
 
   def root200 = get("/") {

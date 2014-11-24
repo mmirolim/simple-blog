@@ -16,10 +16,11 @@ trait UserRoute extends Base {
   private val _nsId = _ns + "/:id"
 
   get(_ns) {
+    "GET all users"
   }
 
   get(_nsId) {
-
+    "GET one user"
   }
 
   get(_nsId + "/posts") {
