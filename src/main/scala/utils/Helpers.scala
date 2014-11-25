@@ -8,4 +8,5 @@ object Helpers {
   case class ResMsg(status: Int, msg: String)
 
   case class LoginData(login: String, pass: String)
+
 }
