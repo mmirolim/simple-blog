@@ -27,7 +27,7 @@ class UserRouteSpec extends MutableScalatraSpec with DB {
   "DELETE /backend/users/1 User" should {
     "return status 200" in {
       delete("/users/1") {
-        status must_== 200
+        status must_== 204
       }
     }
   }
