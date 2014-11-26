@@ -27,9 +27,11 @@ trait Base extends ScalatraServlet with ScalateSupport with JacksonJsonSupport {
 
   // @todo delete after impl routes
   val uid: Int = 21
+  val urole: Int = 1
 
   before() {
     //if (session.getAttribute("uid") == null) halt(401)
+    //if (session.getAttribute("urole") == null) halt(401)
     contentType = formats("json")
   }
 

@@ -1,10 +1,7 @@
 package blog.routes
 
-import java.sql.Timestamp
-import java.util.Date
-
 import models.Tables._
-import org.scalatra.{NotFound, BadRequest}
+import org.scalatra.{Ok, NotFound, BadRequest}
 import utils._
 import scala.slick.driver.MySQLDriver.simple._
 /**
@@ -16,32 +13,57 @@ trait UserRoute extends Base {
   private val _ns = "/users"
   private val _nsId = _ns + "/:id"
 
+  // get all users
   get(_ns) {
 
-    db withSession {
-      implicit session =>
-        users.sortBy(u => u.name.asc).list.map(u => Map("name" -> u.name, "login" -> u.login, "email" -> u.email))
+    db withSession {implicit session =>
+
+        users.sortBy(u => u.name.asc).list.map(u => Users.map(u))
+
     }
 
   }
 
+  // get user
   get(_nsId) {
 
     val uid = params("id").toInt
 
-    db withSession {
-      implicit session =>
-        users.filter(u => u.id === uid).list.map(u => Map("name" -> u.name, "login" -> u.login, "email" -> u.email, "createdAt" -> u.createdAt.toString))
+    db withSession { implicit session =>
+      
+        users.filter(u => u.id === uid).list.map(u => Users.map(u))
+
     }
 
   }
 
+  // get all posts from user
   get(_nsId + "/posts") {
-    "GET user posts"
+
+    val id = params("id").toInt
+
+    db withSession { implicit session =>
+
+      val r = users.filter(_.id === id).join(posts).on(_.id === _.authorId).list
+
+      Users.map(r.head._1) ++ Map("posts" -> r.map(_._2).map(p => Posts.map(p)))
+
+    }
+
   }
 
+  // get all comments from user
   get(_nsId + "/comments") {
-    "GET user comments"
+
+    val id = params("id").toInt
+
+    db withSession { implicit session =>
+
+      val r = users.filter(_.id === id).join(comments).on(_.id === _.authorId).list
+
+      Users.map(r.head._1) ++ Map("comments" -> r.map(_._2).map(c => Comments.map(c)))
+
+    }
   }
 
 }
