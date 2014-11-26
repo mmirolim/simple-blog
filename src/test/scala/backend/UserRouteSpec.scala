@@ -9,25 +9,25 @@ class UserRouteSpec extends MutableScalatraSpec with DB {
   addServlet(new Backend(db, logger), "/*")
 
   "POST /backend/users User" should {
-    "return status 401" in {
+    "return status 400" in {
       post("/users") {
-        status must_== 401
+        status must_== 400
       }
     }
   }
 
-  "POST /backend/users/1 User" should {
-    "return status 401" in {
-      post("/users/1") {
-        status must_== 401
+  "PUT /backend/users/1 User" should {
+    "return status 400" in {
+      put("/users/1") {
+        status must_== 400
       }
     }
   }
 
   "DELETE /backend/users/1 User" should {
-    "return status 401" in {
+    "return status 200" in {
       delete("/users/1") {
-        status must_== 401
+        status must_== 200
       }
     }
   }
