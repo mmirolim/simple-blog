@@ -1,7 +1,5 @@
 package blog.routes
 
-import org.scalatra.BadRequest
-
 /**
  * Created by Mirzakhmedov Mirolim on 06.11.2014.
  */

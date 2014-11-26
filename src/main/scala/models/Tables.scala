@@ -4,6 +4,7 @@ import java.time.LocalDateTime._
 import java.time.{LocalDate, LocalDateTime, ZoneOffset}
 import java.sql.{Date, Timestamp}
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import utils.Slug
 import scala.slick.driver.MySQLDriver.simple._
 import scala.slick.lifted.Tag
 
@@ -70,7 +71,7 @@ object Tables {
   @JsonIgnoreProperties(ignoreUnknown = true)
   case class Post(id: Int = 0,
                   title: String,
-                  slug: String,
+                  slug: String = "",
                   content: String,
                   authorId: Int,
                   createdAt: LocalDateTime = now,
@@ -138,9 +139,9 @@ object Tables {
 
   val comments = TableQuery[Comments]
 
- implicit val JavaLocalDateTimeMapper = MappedColumnType.base[LocalDateTime, Timestamp](
-  {d => Timestamp.from(d.toInstant(ZoneOffset.ofHours(0)))},
-  {d => d.toLocalDateTime}
+  implicit val JavaLocalDateTimeMapper = MappedColumnType.base[LocalDateTime, Timestamp](
+    {d => Timestamp.from(d.toInstant(ZoneOffset.ofHours(0)))},
+    {d => d.toLocalDateTime}
   )
 
   /**
