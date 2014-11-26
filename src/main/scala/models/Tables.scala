@@ -13,17 +13,16 @@ import scala.slick.lifted.Tag
  */
 object Tables {
 
-  val rolesDic = Map("Admin" -> 1, "Editor" -> 2, "User" -> 3)
-
   @JsonIgnoreProperties(ignoreUnknown = true)
   case class User(id: Int = 0,
                   login: String,
                   pass: String,
                   name: String,
                   email: String,
-                  roleId: Int = rolesDic("User"),
+                  roleId: Int = Roles.User,
                   createdAt: LocalDateTime = now,
                   updatedAt: LocalDateTime = now)
+
 
   class Users(tag: Tag) extends Table[User](tag, "users") {
 
@@ -52,28 +51,43 @@ object Tables {
 
   val users = TableQuery[Users]
 
+  object Users {
+
+    def map(u: User)  = Map("id" -> u.id, "name" -> u.name, "login" -> u.login, "email" -> u.email, "createdAt" -> u.createdAt.toString)
+
+  }
 
   case class Role(id: Int, title: String)
 
-  class Roles(tag: Tag) extends Table[(Int, String)](tag, "roles") {
+  case class RoleType(id: Int)
+
+  class Roles(tag: Tag) extends Table[Role](tag, "roles") {
 
     def id = column[Int]("id", O.PrimaryKey)
 
     def title = column[String]("title")
 
     // projection to *
-    def * = (id, title)
+    def * = (id, title) <> (Role.tupled, Role.unapply _)
 
   }
 
   val roles = TableQuery[Roles]
+
+  object Roles {
+    val Admin = 1
+    val Editor = 2
+    val User = 3
+
+    val dic = Map(Admin -> "admin", Editor -> "editor", User -> "user")
+  }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
   case class Post(id: Int = 0,
                   title: String,
                   slug: String = "",
                   content: String,
-                  authorId: Int,
+                  authorId: Int = 0,
                   createdAt: LocalDateTime = now,
                   updatedAt: LocalDateTime = now)
 
@@ -102,6 +116,18 @@ object Tables {
 
   val posts = TableQuery[Posts]
 
+  object Posts {
+
+    def map(p: Post) = Map(
+      "id" -> p.id, 
+      "title" -> p.title, 
+      "slug" -> p.slug, 
+      "content" -> p.content, 
+      "authorId" -> p.authorId, 
+      "createdAt" -> p.createdAt.toString, 
+      "updatedAt" -> p.updatedAt.toString)
+    
+  }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
   case class Comment(id: Int = 0,
@@ -138,6 +164,19 @@ object Tables {
   }
 
   val comments = TableQuery[Comments]
+  
+  object Comments {
+    
+     def map(c: Comment) = Map(
+      "id" -> c.id,
+      "title" -> c.title,
+      "content" -> c.content,
+      "authorId" -> c.authorId,
+      "postId" -> c.postId,
+      "createdAt" -> c.createdAt.toString,
+      "updatedAt" -> c.updatedAt.toString)
+
+  }
 
   implicit val JavaLocalDateTimeMapper = MappedColumnType.base[LocalDateTime, Timestamp](
     {d => Timestamp.from(d.toInstant(ZoneOffset.ofHours(0)))},
