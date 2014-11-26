@@ -1,5 +1,9 @@
 package backend.routes
 
+import models.Tables._
+import scala.slick.driver.MySQLDriver.simple._
+import org.scalatra.{Created, NoContent, Forbidden}
+
 /**
  * Created by Mirzakhmedov Mirolim 06.11.2014.
  */
@@ -8,16 +12,39 @@ trait CommentRoute extends Base  {
   private val _ns = "/comments" // route namespace
   private val _nsId = _ns + "/:id"
 
+  // create comment
   post(_ns) {
-    "POST " + _ns + baseProp
-  }
 
-  post(_nsId) {
-    "This is comment update"
+    val c = parsedBody.extract[Comment]
+
+    val uid = session.getAttribute("uid").asInstanceOf[Int]
+
+    db withSession { implicit session =>
+
+      comments.insert(c.copy(authorId = uid))
+
+    }
+
+    Created()
+
   }
 
   delete(_nsId) {
-    "this is DELETE method"
+
+    val id = params("id").toInt
+
+    val urole = session.getAttribute("urole").asInstanceOf[Int]
+
+    if (List(Roles.Admin, Roles.Editor).contains(urole)) Forbidden()
+
+    db withSession { implicit session =>
+
+      comments.filter(_.id === id).delete
+
+    }
+
+    NoContent()
+
   }
 
 }

@@ -18,25 +18,25 @@ class UserRouteSpec extends MutableScalatraSpec with DB {
   }
 
   "GET /users/1 User" should {
-    "return status 200" in {
-      get("/users/id") {
-        status must_== 200
+    "return status 404" in {
+      get("/users/1") {
+        status must_== 404
       }
     }
   }
 
   "GET /users/1/posts User" should {
-    "return status 200" in {
+    "return status 404" in {
       get("/users/1/posts") {
-        status must_== 200
+        status must_== 404
       }
     }
   }
 
   "GET /users/1/comments User" should {
-    "return status 200" in {
+    "return status 404" in {
       get("/users/1/comments") {
-        status must_== 200
+        status must_== 404
       }
     }
   }

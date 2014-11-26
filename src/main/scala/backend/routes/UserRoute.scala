@@ -1,10 +1,9 @@
 package backend.routes
 
-import java.time.LocalDateTime._
 import models.Tables._
 import org.mindrot.jbcrypt.BCrypt
-import org.scalatra.{Ok, Unauthorized, BadRequest}
-import utils.Helpers._
+import org.scalatra._
+
 import scala.slick.driver.MySQLDriver.simple._
 
 /**
@@ -15,53 +14,68 @@ trait UserRoute extends Base {
   private val _ns = "/users"
   private val _nsId = _ns + "/:id"
 
-
+  // save new user
   post(_ns) {
 
-    try {
-      val u = parsedBody.extract[User]
-      // hash password
-      val passHashed = BCrypt.hashpw(u.pass, BCrypt.gensalt)
+    val user = parsedBody.extract[User]
+    // hash password
+    val passHashed = BCrypt.hashpw(user.pass, BCrypt.gensalt)
 
-      db withSession {
-        implicit session: Session =>
-          users.map(n => (n.login, n.pass, n.name, n.email, n.roleId, n.createdAt)) += (u.login, passHashed, u.name, u.email, rolesDic("User"), now)
-      }
+    db withSession { implicit session =>
 
-      ResMsg(200, "new user created")
+      users.insert(user.copy(pass = passHashed, roleId = Roles.User))
 
-    } catch {
-      case e: Exception => BadRequest(ResMsg(400,e.toString))
     }
+
+    Ok
 
   }
 
-  post(_nsId) {
-    val users = TableQuery[Users]
-    try {
-      val u = parsedBody.extract[User]
-      // hash password
-      val passHashed = BCrypt.hashpw(u.pass, BCrypt.gensalt)
+  // update user
+  put(_nsId) {
 
-      db withSession {
-        implicit session: Session =>
-          users.map(n => (n.login, n.pass, n.name, n.email, n.roleId, n.createdAt)) += (u.login, passHashed, u.name, u.email, rolesDic("User"), now)
-      }
+    val user = parsedBody.extract[Map[String, String]]
 
-      ResMsg(200, "new user created")
+    val uid = session.getAttribute("uid").asInstanceOf[Int]
 
-    } catch {
-      case e: Exception => BadRequest(ResMsg(400,e.toString))
+    db withSession { implicit session =>
+
+      val q = users.filter(_.id === uid)
+
+      if (user.contains("name")) q.map(u => u.name).update(user("name"))
+
+      if (user.contains("email")) q.map(u => u.email).update(user("email"))
+
     }
 
   }
 
   delete(_nsId) {
-    //delete user
+
+    val id = params("id").toInt
+
+    val uid = session.getAttribute("uid").asInstanceOf[Int]
+
+    val urole = session.getAttribute("urole").asInstanceOf[Int]
+
+    // should not delete himself
+    if (urole != Roles.Admin || uid == id) Forbidden()
+
+    db withSession { implicit session =>
+
+      users.filter(_.id === id).delete
+
+    }
+
+    NoContent()
+
   }
 
+  // get all roles
   get("/roles") {
-    "Get All Roles"
+
+    Roles.dic
+
   }
 
 }

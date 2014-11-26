@@ -16,9 +16,9 @@ class UserRouteSpec extends MutableScalatraSpec with DB {
     }
   }
 
-  "POST /backend/users/1 User" should {
+  "PUT /backend/users/1 User" should {
     "return status 401" in {
-      post("/users/1") {
+      put("/users/1") {
         status must_== 401
       }
     }
