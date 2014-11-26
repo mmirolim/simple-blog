@@ -53,7 +53,7 @@ object Tables {
 
   object Users {
 
-    def map(u: User)  = Map("id" -> u.id, "name" -> u.name, "login" -> u.login, "email" -> u.email, "createdAt" -> u.createdAt.toString)
+    def map(u: User) = Map("id" -> u.id, "name" -> u.name, "login" -> u.login, "email" -> u.email, "createdAt" -> u.createdAt.toString)
 
   }
 

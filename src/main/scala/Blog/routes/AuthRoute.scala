@@ -16,15 +16,19 @@ trait AuthRoute extends Base {
     val data = parsedBody.extract[LoginData]
 
     db withSession { implicit session =>
+
         users.filter(_.login === data.login).list
+
     } match {
       case Nil => Unauthorized(ResMsg(401, "login/password is wrong"))
       case u +: _ =>
         if (BCrypt.checkpw(data.pass, u.pass)) {
+
           //save user id and role in session
           session.setAttribute("uid", u.id)
           session.setAttribute("urole", u.id)
           Ok()
+
         } else Unauthorized(ResMsg(401, "login/password is wrong"))
     }
 

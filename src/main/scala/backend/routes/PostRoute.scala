@@ -18,8 +18,12 @@ trait PostRoute extends Base {
 
     val post = parsedBody.extract[Post]
 
+    val uid = session.getAttribute("uid").asInstanceOf[Int]
+
     db withSession { implicit session =>
+
       posts.insert(post.copy(slug = post.title.slug, authorId = uid))
+
     }
 
     Created()
@@ -30,7 +34,10 @@ trait PostRoute extends Base {
   put(_nsId) {
 
     val id = params("id").toInt
+
     val m = parsedBody.extract[Map[String, String]]
+
+    val uid = session.getAttribute("uid").asInstanceOf[Int]
 
     db withSession { implicit session =>
       // only author can update
@@ -49,6 +56,8 @@ trait PostRoute extends Base {
   delete(_nsId) {
 
     val id = params("id").toInt
+
+    val urole = session.getAttribute("urole").asInstanceOf[Int]
 
     if (urole != Roles.Admin) Forbidden()
 

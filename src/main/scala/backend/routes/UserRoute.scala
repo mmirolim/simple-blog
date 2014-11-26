@@ -36,6 +36,8 @@ trait UserRoute extends Base {
 
     val user = parsedBody.extract[Map[String, String]]
 
+    val uid = session.getAttribute("uid").asInstanceOf[Int]
+
     db withSession { implicit session =>
 
       val q = users.filter(_.id === uid)
@@ -51,6 +53,11 @@ trait UserRoute extends Base {
   delete(_nsId) {
 
     val id = params("id").toInt
+
+    val uid = session.getAttribute("uid").asInstanceOf[Int]
+
+    val urole = session.getAttribute("urole").asInstanceOf[Int]
+
     // should not delete himself
     if (urole != Roles.Admin || uid == id) Forbidden()
 

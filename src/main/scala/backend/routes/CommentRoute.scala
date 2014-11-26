@@ -17,6 +17,8 @@ trait CommentRoute extends Base  {
 
     val c = parsedBody.extract[Comment]
 
+    val uid = session.getAttribute("uid").asInstanceOf[Int]
+
     db withSession { implicit session =>
 
       comments.insert(c.copy(authorId = uid))
@@ -30,6 +32,8 @@ trait CommentRoute extends Base  {
   delete(_nsId) {
 
     val id = params("id").toInt
+
+    val urole = session.getAttribute("urole").asInstanceOf[Int]
 
     if (List(Roles.Admin, Roles.Editor).contains(urole)) Forbidden()
 

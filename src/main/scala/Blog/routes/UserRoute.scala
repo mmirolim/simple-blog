@@ -31,13 +31,13 @@ trait UserRoute extends Base {
 
     db withSession { implicit session =>
       
-        users.filter(u => u.id === uid).list.map(u => Users.map(u))
+      Users map users.filter(_.id === uid).first
 
     }
 
   }
 
-  // get all posts from user
+  // get all posts of a user
   get(_nsId + "/posts") {
 
     val id = params("id").toInt
@@ -52,7 +52,7 @@ trait UserRoute extends Base {
 
   }
 
-  // get all comments from user
+  // get all comments of a user
   get(_nsId + "/comments") {
 
     val id = params("id").toInt

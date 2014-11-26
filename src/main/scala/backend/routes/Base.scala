@@ -25,16 +25,15 @@ trait Base extends ScalatraServlet with ScalateSupport with JacksonJsonSupport {
     def slug = Slug(s)
   }
 
-  // @todo delete after impl routes
-  val uid: Int = 21
-  val urole: Int = 1
-
   before() {
-    //if (session.getAttribute("uid") == null) halt(401)
-    //if (session.getAttribute("urole") == null) halt(401)
+
+    if (session.getAttribute("uid") == null || session.getAttribute("urole") == null) halt(401)
+
     contentType = formats("json")
+
   }
 
+  // handle exception from routes
   error {
     case e: MySQLIntegrityConstraintViolationException => BadRequest(ResMsg(400, Msg.DataIntegrityViolation))
     case e: JsonParseException => BadRequest(ResMsg(400, Msg.JsonParseError))
